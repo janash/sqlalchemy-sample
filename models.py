@@ -5,7 +5,7 @@ Table models for SQLAlchemy database.
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Table
 
 # one to many - journal to article
 # many to one - author to paper or paper to project. Project may be easier to demonstrate
@@ -18,6 +18,7 @@ class Journal(Base):
     name = Column(String, primary_key=True)
     publisher = Column(String, nullable=True)
     papers = relationship('Paper', backref='journal')
+
 
 class Paper(Base):
     __tablename__ = 'papers'
@@ -34,15 +35,17 @@ class Paper(Base):
         return F'Papers(DOI={self.DOI}, paper_title={self.paper_title})'
 
 
-#class Projects(Base):
-#    __tablename__ = 'projects'
+association_table = Table('project_papers', Base.metadata, 
+    Column('project_name', String, ForeignKey('projects.name')),
+    Column('paper_doi', String, ForeignKey('papers.DOI'))
+)
 
-#    name = Column(String, primary_key=True)
-#    description = Column(String, nullable=True)
+class Project(Base):
+    __tablename__ = 'projects'
 
-#class ProjectPapers(Base):
-#    __tablename__ = 'project_papers'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True, nullable=False)
+    description = Column(String, nullable=True)
+    papers = relationship("Paper", secondary=association_table, backref="projects")
 
-#    project_name = Column(String, ForeignKey('projects.name'), primary_key=True)
-#    project_papers = Column(String, ForeignKey('papers.DOI'), primary_key=True)
 

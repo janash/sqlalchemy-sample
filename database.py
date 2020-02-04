@@ -7,7 +7,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import Base, Paper, Journal
+from models import Base, Paper, Journal, Project
 
 try:
     os.remove('my_papers.db')
@@ -52,5 +52,19 @@ for journal in all_journals:
     #print(journal.papers)
     print(journal.name)
     [print(x.paper_title) for x in journal.papers]
+
+# Adding a project
+molssi_project = Project(name="MolSSI Fellowship", description="Papers associated with MolSSI",
+        papers=[molssi_paper, bse_paper]
+)
+session.add(molssi_project)
+session.commit()
+
+# To add another paper
+from_db = session.query(Project).filter(Project.name=='MolSSI Fellowship').one()
+from_db.papers.append(crawford_paper)
+
+session.add(from_db)
+session.commit()
 
 session.close()
