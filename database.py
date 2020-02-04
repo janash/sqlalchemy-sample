@@ -9,8 +9,12 @@ from sqlalchemy.orm import sessionmaker
 
 from models import Base, Papers
 
-os.remove('my_papers.db')
+try:
+    os.remove('my_papers.db')
+except:
+    pass
 
+# echo true goes on engine
 engine = create_engine('sqlite:///my_papers.db')
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -33,8 +37,13 @@ session.commit()
 #print(my_paper.paper_title)
 
 all_papers = session.query(Papers).all()
+#for paper in all_papers:
+#    print(F'{paper.DOI} \t {paper.paper_title}')
 
-for paper in all_papers:
-    print(F'{paper.DOI} \t {paper.paper_title}')
+# What if we wanted to find all papers Ben was an author on?
+ben_papers = session.query(Papers).filter(Papers.authors.contains('Jessica'))
+
+for paper in ben_papers:
+    print(paper.paper_title)
 
 session.close()
