@@ -17,6 +17,9 @@ class Papers(Base):
     journal = Column(String, nullable=False)
     publication_year = Column(Integer, nullable=False)
     authors = Column(String, nullable=False)
+
+    def __str__(self):
+        return F'Papers(DOI={self.DOI}, paper_title={self.paper_title})'
 #    authors = relationship("PaperAuthors", back_populates="papers")
 #    projects = relationship("ProjectPapers", back_populates="papers")
 
