@@ -16,7 +16,7 @@ class Journal(Base):
     __tablename__ = 'journals'
 
     name = Column(String, primary_key=True)
-    discipline = Column(String, nullable=True)
+    publisher = Column(String, nullable=True)
     papers = relationship('Paper', backref='journal')
 
 class Paper(Base):
