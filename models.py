@@ -7,34 +7,33 @@ from sqlalchemy.orm import relationship
 
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 
+# one to many - journal to article
+# many to one - author to paper or paper to project. Project may be easier to demonstrate
+
 Base = declarative_base()
+
+class Journal(Base):
+    __tablename__ = 'journals'
+
+    name = Column(String, primary_key=True)
+    discipline = Column(String, nullable=True)
+    papers = relationship('Paper', back_populates='journal')
 
 class Paper(Base):
     __tablename__ = 'papers'
 
     DOI = Column(String, primary_key=True)
     paper_title = Column(String, nullable=False)
-    journal = Column(String, nullable=False)
     publication_year = Column(Integer, nullable=False)
     authors = Column(String, nullable=False)
 
+    journal_id = Column(String, ForeignKey('journals.name'))
+    # First argument is class name for table, back populates
+    journal = relationship("Journal", back_populates='papers')
+
     def __str__(self):
         return F'Papers(DOI={self.DOI}, paper_title={self.paper_title})'
-#    authors = relationship("PaperAuthors", back_populates="papers")
-#    projects = relationship("ProjectPapers", back_populates="papers")
 
-class Author(Base):
-    __tablename__ = 'authors'
-    authorID = Column(Integer, primary_key=True)
-    first_name = Column(String, nullable=False)
-    initials = Column(String, nullable=True)
-    last_name = Column(String, nullable=False)
-
-class PaperAuthor(Base):
-    __tablename__ = 'paper_authors'
-#    
-#    DOI = Column(String, ForeignKey('papers.DOI'), primary_key=True)
-#    author = Column(String, ForeignKey('authors.authorID'), primary_key=True)
 
 #class Projects(Base):
 #    __tablename__ = 'projects'
