@@ -17,7 +17,7 @@ class Journal(Base):
 
     name = Column(String, primary_key=True)
     discipline = Column(String, nullable=True)
-    papers = relationship('Paper', back_populates='journal')
+    papers = relationship('Paper', backref='journal')
 
 class Paper(Base):
     __tablename__ = 'papers'
@@ -29,7 +29,6 @@ class Paper(Base):
 
     journal_id = Column(String, ForeignKey('journals.name'))
     # First argument is class name for table, back populates
-    journal = relationship("Journal", back_populates='papers')
 
     def __str__(self):
         return F'Papers(DOI={self.DOI}, paper_title={self.paper_title})'
