@@ -9,11 +9,9 @@ from sqlalchemy.orm import sessionmaker
 
 from models import Base, Paper, Journal, Project
 
-try:
+if os.path.isfile('my_papers.db'):
     os.remove('my_papers.db')
-except:
-    pass
-
+    
 # echo true goes on engine
 engine = create_engine('sqlite:///my_papers.db')
 Session = sessionmaker(bind=engine)
@@ -61,10 +59,10 @@ session.add(molssi_project)
 session.commit()
 
 # To add another paper
-from_db = session.query(Project).filter(Project.name=='MolSSI Fellowship').one()
-from_db.papers.append(crawford_paper)
+#from_db = session.query(Project).filter(Project.name=='MolSSI Fellowship').one()
+#from_db.papers.append(crawford_paper)
 
-session.add(from_db)
-session.commit()
+#session.add(from_db)
+#session.commit()
 
 session.close()
