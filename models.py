@@ -9,7 +9,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 
 Base = declarative_base()
 
-class Papers(Base):
+class Paper(Base):
     __tablename__ = 'papers'
 
     DOI = Column(String, primary_key=True)
