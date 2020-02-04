@@ -27,7 +27,7 @@ class Paper(Base):
     publication_year = Column(Integer, nullable=False)
     authors = Column(String, nullable=False)
 
-    journal_id = Column(String, ForeignKey('journals.name'))
+    journal_name = Column(String, ForeignKey('journals.name'))
     # First argument is class name for table, back populates
 
     def __str__(self):

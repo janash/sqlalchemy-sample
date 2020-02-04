@@ -45,5 +45,12 @@ session.commit()
 #print(my_paper.paper_title)
 
 all_papers = session.query(Paper).all()
+all_journals = session.query(Journal).all()
+
+for journal in all_journals:
+    # This will be a list of paper objects for each journal
+    #print(journal.papers)
+    print(journal.name)
+    [print(x.paper_title) for x in journal.papers]
 
 session.close()
