@@ -23,15 +23,15 @@ class Paper(Base):
 #    authors = relationship("PaperAuthors", back_populates="papers")
 #    projects = relationship("ProjectPapers", back_populates="papers")
 
-#class Authors(Base):
-#    __tablename__ = 'authors'
-#    authorID = Column(Integer, primary_key=True)
-#    first_name = Column(String, nullable=False)
-#    initials = Column(String, nullable=True)
-#    last_name = Column(String, nullable=False)
+class Author(Base):
+    __tablename__ = 'authors'
+    authorID = Column(Integer, primary_key=True)
+    first_name = Column(String, nullable=False)
+    initials = Column(String, nullable=True)
+    last_name = Column(String, nullable=False)
 
-#class PaperAuthors(Base):
-#    __tablename__ = 'paper_authors'
+class PaperAuthor(Base):
+    __tablename__ = 'paper_authors'
 #    
 #    DOI = Column(String, ForeignKey('papers.DOI'), primary_key=True)
 #    author = Column(String, ForeignKey('authors.authorID'), primary_key=True)

@@ -7,7 +7,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import Base, Paper
+from models import Base, Paper, Author
 
 try:
     os.remove('my_papers.db')
@@ -53,15 +53,14 @@ for author in author_list1.split(','):
     split_name = author.split()
 
     first_name = split_name[0]
+    last_name = split_name[-1]
     if len(split_name) > 2:
-        last_name= split_name[2:]
         initial = split_name[1]
     elif len(split_name) == 2:
-        last_name = split_name[1]
         initial = None
     
-    #add_author = Author(first_name=first_name, initial=initial, last_name=last_name)
-    #session.add(add_author)
+    add_author = Author(first_name=first_name, initials=initial, last_name=last_name)
+    session.add(add_author)
 
 
 session.commit()
